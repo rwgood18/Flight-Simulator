@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="shortcut icon" href="resources/images/plane.ico"
+		type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Oxygen'
+		rel='stylesheet' type='text/css' />
+	<h:outputStylesheet library="css" name="style.css" />
+	<title>Profile</title>
+</h:head>
+<h:body>
+	<h:form>
+		<ui:insert name="header">
+			<ui:include src="common-header.xhtml" />
+		</ui:insert>
+		<div class="content">
+			<p:layout size="600" style="margin: 0 auto">
+				<p:layoutUnit position="west" resizable="true" size="400"
+					minSize="40" style="background-color: #ADD8E6">
+					<h2 style="margin-left: 20px">Did You Know?</h2>
+					<p:separator />
+
+					<p:panel>
+						<h:panelGrid id="facts">
+							<dl>
+								<dt style="font-weight: bold">Being on the Ground Does Not
+									Equal Safety</dt>
+								<dd>One of the deadliest accidents in airplane history
+									actually occurred prior to takeoff. A deadly combination of fog
+									and mixed radio signals from the flight deck caused two planes,
+									carrying over 600 passengers between them, to collide head-on
+									in the middle of a runway in the infamous Tenerife Accident.
+									Over 500 individuals died as a result of this crash.</dd>
+
+
+
+
+							</dl>
+						</h:panelGrid>
+					</p:panel>
+
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center"
+					style="background-color:#ADD8E6; height: 72vh">
+					<h2 style="margin-left: 20px">Edit Profile</h2>
+					<p:panel id="info">
+						<h:panelGrid id="addressGrid" columns="3">
+							<p:outputLabel value="Username:" />
+							<p:outputLabel id="username" value="#{profileBean.user.username}" />
+							<p:message for="username" />
+
+							<p:outputLabel for="firstName" value="First Name: " />
+							<p:inplace for="firstName" editor="true"
+								label="#{profileBean.user.firstName}">
+								<p:inputText id="firstName"
+									value="#{profileBean.user.firstName}" />
+							</p:inplace>
+							<p:message for="firstName" />
+
+							<p:outputLabel for="lastName:" value="Last Name: " />
+							<p:inplace for="lastName:" editor="true"
+								label="#{profileBean.user.lastName}">
+								<p:inputText id="lastName" value="#{profileBean.user.lastName}" />
+							</p:inplace>
+							<p:message for="lastName" />
+
+							<p:outputLabel for="phoneNumber" value="Phone Number: " />
+							<p:inplace for="phoneNumber" editor="true"
+								label="#{profileBean.user.phoneNumber}">
+								<p:inputText id="phoneNumber"
+									value="#{profileBean.user.phoneNumber}" />
+							</p:inplace>
+							<p:message for="phoneNumber" />
+
+							<p:outputLabel for="email" value="Email: " />
+							<p:inplace for="firstName" editor="true"
+								label="#{profileBean.user.email}">
+								<p:inputText id="email" value="#{profileBean.user.email}" />
+							</p:inplace>
+							<p:message for="email" />
+
+							<p:outputLabel for="street" value="Street Address: " />
+							<p:inplace for="firstName" editor="true"
+								label="#{profileBean.user.street}">
+								<p:inputText id="street" value="#{profileBean.user.street}" />
+							</p:inplace>
+							<p:message for="street" />
+
+							<p:outputLabel for="city" value="City: " />
+							<p:inplace for="firstName" editor="true"
+								label="#{profileBean.user.city}">
+								<p:inputText id="city" value="#{profileBean.user.city}" />
+							</p:inplace>
+							<p:message for="city" />
+
+							<p:outputLabel for="state" value="State: " />
+							<p:inplace for="firstName" editor="true"
+								label="#{profileBean.user.state}">
+								<p:inputText id="state" value="#{profileBean.user.state}" />
+							</p:inplace>
+							<p:message for="state" />
+
+							<p:outputLabel for="zip" value="Zip Code: " />
+							<p:inplace for="firstName" editor="true"
+								label="#{profileBean.user.zip}">
+								<p:inputText id="zip" value="#{profileBean.user.zip}" />
+							</p:inplace>
+							<p:message for="zip" />
+						</h:panelGrid>
+						<p:separator />
+
+						<p:commandButton value="Save Changes" validateClient="true"
+							process="@form" update="@form" style="margin-top: 10px"
+							action="#{profileBean.update()}" />
+					</p:panel>
+				</p:layoutUnit>
+			</p:layout>
+		</div>
+	</h:form>
+</h:body>
+</html>

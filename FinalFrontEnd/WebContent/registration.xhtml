@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="shortcut icon" href="resources/images/plane.ico"
+		type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Oxygen'
+		rel='stylesheet' type='text/css' />
+	<h:outputStylesheet library="css" name="style.css" />
+	<title>Registration</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:panel class="header">
+			<div style="width: 400px; height: 4a0px; display: inline-table;">
+				<span> <h:link class="font left userMenu" outcome="home"
+						value="Flight Simulator 3000"
+						style="color: white; text-decoration: none" /></span>
+
+			</div>
+		</p:panel>
+		<div style="margin-left: 100px">
+
+			<h2 class="font">Registration</h2>
+			<p:separator />
+
+			<h:panelGrid id="addressGrid" columns="3">
+
+				<p:outputLabel for="firstName:" value="First Name: " required="true"/>
+				<p:inputText id="firstName"
+					value="#{registrationBean.user.firstName}" required="true"/>
+				<p:message for="firstName" />
+
+				<p:outputLabel for="lastName:" value="Last Name: " />
+				<p:inputText id="lastName" value="#{registrationBean.user.lastName}" required="true"/>
+				<p:message for="lastName" />
+
+				<p:outputLabel for="phoneNumber" value="Phone Number: " />
+				<p:inputText id="phoneNumber"
+					value="#{registrationBean.user.phoneNumber}" required="true"/>
+				<p:message for="phoneNumber" />
+
+				<p:outputLabel for="email" value="Email: " />
+				<p:inputText id="email" value="#{registrationBean.user.email}" required="true"/>
+				<p:message for="email" />
+
+				<p:outputLabel for="street" value="Street Address: " />
+				<p:inputText id="street" value="#{registrationBean.user.street}" required="true"/>
+				<p:message for="street" />
+
+				<p:outputLabel for="city" value="City: " />
+				<p:inputText id="city" value="#{registrationBean.user.city}" required="true"/>
+				<p:message for="city" />
+
+				<p:outputLabel for="state" value="State: " />
+				<p:inputText id="state" value="#{registrationBean.user.state}" required="true"/>
+				<p:message for="state" />
+
+				<p:outputLabel for="zip" value="Zip Code: " />
+				<p:inputText id="zip" value="#{registrationBean.user.zip}" required="true"/>
+				<p:message for="zip" />
+			</h:panelGrid>
+			<p:separator />
+			<h:panelGrid columns="3">
+				<p:outputLabel value="Username:" />
+				<p:inputText id="username" value="#{registrationBean.user.username}"
+					required="true" feedback="true">
+					<f:validator binding="#{usernameValidator}"/>
+				</p:inputText>
+				<p:message for="username" />
+
+				<p:outputLabel value="Password:" />
+				<p:password id="password" value="#{registrationBean.user.password}"
+					required="true" feedback="true" />
+				<p:message for="password" />
+			</h:panelGrid>
+			<p:commandButton value="Register" validateClient="true"
+				process="@form" update="@form" style="margin-top: 10px"
+				action="#{registrationBean.register()}" />
+		</div>
+	</h:form>
+</h:body>
+</html>

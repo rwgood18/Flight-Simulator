@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="shortcut icon" href="resources/images/plane.ico"
+		type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Oxygen'
+		rel='stylesheet' type='text/css' />
+	<h:outputStylesheet library="css" name="style.css" />
+	<title>Home</title>
+</h:head>
+<h:body>
+	<h:form>
+		<ui:insert name="header">
+			<ui:include src="common-header.xhtml" />
+		</ui:insert>
+		<div class="content">
+			<p:layout size="600" style="margin: 0 auto">
+				<p:layoutUnit position="west" resizable="true" size="300"
+					minSize="40" style="background-color: #ADD8E6">
+					<p:panel rendered="#{authenticationBean.isLoggedIn()}">
+						<h2 style="margin-left: 20px">My Trips</h2>
+						<p:separator />
+
+						<p:panel>
+							<h:panelGrid id="trips">
+								<table>
+									<ui:repeat varStatus="status" var="trip"
+										value="#{tripBean.trips}">
+										<tr>
+											<td><p:commandLink
+													value="#{trip.origin} to #{trip.destination}"
+													action="#{tripBean.selectTrip(trip)}" process="@form"
+													update="@form" /></td>
+										</tr>
+									</ui:repeat>
+								</table>
+							</h:panelGrid>
+						</p:panel>
+						<h2 style="margin-left: 20px">Delayed Flights</h2>
+						<p:separator />
+
+						<p:panel>
+							<h:panelGrid id="delays">
+								<table>
+									<ui:repeat varStatus="status" var="flight"
+										value="#{tripBean.delays}">
+										<tr>
+											<td><p:commandLink
+													value="#{flight.originCity} to #{flight.destinationCity}"
+													action="#{tripBean.getTripById(flight.tripId)}"
+													process="@form" update="@form" /></td>
+										</tr>
+									</ui:repeat>
+								</table>
+							</h:panelGrid>
+						</p:panel>
+					</p:panel>
+					<p:panel rendered="#{!authenticationBean.isLoggedIn()}">
+						<h:outputLabel
+							value="Login to search flights, update profile information,
+						 and book trips"
+							style="font-weight: bold" />
+					</p:panel>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center"
+					style="background-color:#ADD8E6; height: 72vh" size="900">
+
+					<div class="center">
+
+						<p:panel style="border: none">
+							<p:panel id="routes" header="Routes"
+								rendered="#{tripBean.showRoutes}">
+								<h:outputText rendered="#{tripBean.showNoMatch()}"
+									value="Sorry, #{tripBean.origin.city} to #{tripBean.destination.city} did not match any results." />
+								<h:outputText
+									value="One or more flights on this route were full. Please choose another route or search again."
+									rendered="#{tripBean.fullFlight}" />
+								<h:outputText rendered="#{tripBean.showHomeRoute and !tripBean.justDrive}"
+									value="No other route was found to #{tripBean.destination.city}. Here is a route back to your home city." />
+								<h:outputText rendered="#{tripBean.justDrive}"
+									value="There are currently no flights to your final destination or back to your home town. Just rent a car and drive." />
+
+								<h:panelGrid>
+									<ui:repeat var="route" value="#{tripBean.routes}"
+										varStatus="status">
+
+										<p:dataTable var="flight" value="#{route}" Header="Route">
+											<p:column headerText="Flight Number">
+												<h:outputText value="#{flight.flightId}" />
+											</p:column>
+											<p:column headerText="Origin">
+												<h:outputText
+													value="#{flight.origin.state}, #{flight.origin.city}" />
+											</p:column>
+											<p:column headerText="Destination">
+												<h:outputText
+													value="#{flight.destination.state}, #{flight.destination.city}" />
+											</p:column>
+											<p:column headerText="Departure">
+												<h:outputText value="#{flight.departure} days" />
+											</p:column>
+											<p:column headerText="ETA">
+												<h:outputText value="#{flight.eta} days" />
+											</p:column>
+										</p:dataTable>
+										<p:commandButton value="Buy Tickets" class="left"
+											action="#{tripBean.buyTickets(route)}"
+											style="margin:15px 0 12px 0;"
+											rendered="#{authenticationBean.isLoggedIn()}" />
+										<p:separator />
+									</ui:repeat>
+								</h:panelGrid>
+							</p:panel>
+
+							<p:panel id="flights" header="All Flights" rendered="true">
+								<h:panelGrid>
+									<p:commandButton value="Refresh Flights" style="margin-bottom: 8px"
+										action="#{tripBean.showAllFlights()}" />
+									<p:dataTable var="flight" value="#{tripBean.allFlights}">
+										<p:column headerText="Flight Number">
+											<h:outputText value="#{flight.flightId}" />
+										</p:column>
+										<p:column headerText="Origin">
+											<h:outputText
+												value="#{flight.origin.state}, #{flight.origin.city}" />
+										</p:column>
+										<p:column headerText="Destination">
+											<h:outputText
+												value="#{flight.destination.state}, #{flight.destination.city}" />
+										</p:column>
+										<p:column headerText="Departure">
+											<h:outputText value="#{flight.departure} days" />
+										</p:column>
+										<p:column headerText="ETA">
+											<h:outputText value="#{flight.eta} days" />
+										</p:column>
+									</p:dataTable>
+								</h:panelGrid>
+							</p:panel>
+						</p:panel>
+					</div>
+				</p:layoutUnit>
+			</p:layout>
+		</div>
+	</h:form>
+</h:body>
+</html>

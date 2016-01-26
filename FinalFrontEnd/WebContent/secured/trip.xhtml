@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<link rel="shortcut icon" href="resources/images/plane.ico"
+		type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Oxygen'
+		rel='stylesheet' type='text/css' />
+	<h:outputStylesheet library="css" name="style.css" />
+	<title>Search Results</title>
+</h:head>
+<h:body>
+	<h:form>
+		<ui:insert name="header">
+			<ui:include src="common-header.xhtml" />
+		</ui:insert>
+		<div class="content">
+			<p:layout size="600" style="margin: 0 auto">
+				<p:layoutUnit position="west" resizable="true" size="300"
+					minSize="40" style="background-color: #ADD8E6">
+					<h:form>
+						<h2 style="margin-left: 20px">My Trips</h2>
+						<p:separator />
+
+						<p:panel>
+							<h:panelGrid id="trips">
+								<table>
+									<ui:repeat varStatus="status" var="trip"
+										value="#{tripBean.trips}">
+										<tr>
+											<td><p:commandLink
+													value="#{trip.origin} to #{trip.destination}"
+													action="#{tripBean.selectTrip(trip)}" process="@form"
+													update="@form" /></td>
+										</tr>
+									</ui:repeat>
+								</table>
+							</h:panelGrid>
+						</p:panel>
+
+					</h:form>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center"
+					style="background-color:#ADD8E6; height: 72vh">
+					<h:form>
+						<div class="center">
+							<h1 style="margin-left: 20px">
+								<h:outputText
+									value="#{tripBean.trip.origin} to #{tripBean.trip.destination}" />
+							</h1>
+							<p:panel style="border: none">
+								<h:outputText id="display" style="margin-right: 400px" />
+
+
+								<p:panel id="homeflights" header="Route Back Home"
+									rendered="#{tripBean.showHomeRoute}">
+
+									<h:panelGrid>
+										<p:dataTable var="flight" value="#{tripBean.tripFlights}">
+											<p:column headerText="Flight Number">
+												<h:outputText value="#{flight.flightId}" />
+											</p:column>
+											<p:column headerText="Origin">
+												<h:outputText
+													value="#{flight.originState}, #{flight.originCity}" />
+											</p:column>
+											<p:column headerText="Destination">
+												<h:outputText
+													value="#{flight.destinationState}, #{flight.destinationCity}" />
+											</p:column>
+											<p:column headerText="Departure">
+												<h:outputText value="#{flight.departure} days" />
+											</p:column>
+											<p:column headerText="ETA">
+												<h:outputText value="#{flight.eta} days" />
+											</p:column>
+											<p:column headerText="Cancel">
+												<p:outputLabel value="Cancelled"
+													rendered="#{flight.cancelled}" />
+												<p:commandButton value="Canel Flight" class="right"
+													process="@form" update="@form"
+													action="#{tripBean.cancel(flight)}"
+													rendered="#{!flight.cancelled}">
+												</p:commandButton>
+											</p:column>
+											<p:column headerText="Status">
+												<p:outputLabel value="On Time" rendered="#{!flight.late}" />
+												<p:outputLabel value="Delayed" rendered="#{flight.late}" />
+												<p:commandButton value="Find New Route" class="right"
+													process="@form" update="@form"
+													action="#{tripBean.findNewRoute(flight)}"
+													rendered="#{flight.late}">
+												</p:commandButton>
+											</p:column>
+
+										</p:dataTable>
+
+
+									</h:panelGrid>
+								</p:panel>
+
+
+								<p:panel id="route" header="Routes">
+
+									<h:panelGrid>
+										<p:dataTable var="flight" value="#{tripBean.tripFlights}">
+											<p:column headerText="Flight Number">
+												<h:outputText value="#{flight.flightId}" />
+											</p:column>
+											<p:column headerText="Origin">
+												<h:outputText
+													value="#{flight.originState}, #{flight.originCity}" />
+											</p:column>
+											<p:column headerText="Destination">
+												<h:outputText
+													value="#{flight.destinationState}, #{flight.destinationCity}" />
+											</p:column>
+											<p:column headerText="Departure">
+												<h:outputText value="#{flight.departure} days" />
+											</p:column>
+											<p:column headerText="ETA">
+												<h:outputText value="#{flight.eta} days" />
+											</p:column>
+											<p:column headerText="Cancel">
+												<p:outputLabel value="Cancelled"
+													rendered="#{flight.cancelled}" />
+												<p:commandButton value="Canel Flight" class="right"
+													process="@form" update="@form"
+													action="#{tripBean.cancel(flight)}"
+													rendered="#{!flight.cancelled}">
+												</p:commandButton>
+											</p:column>
+											<p:column headerText="Status">
+												<p:outputLabel value="On Time" rendered="#{!flight.late}" />
+												<p:outputLabel value="Delayed" rendered="#{flight.late}" />
+												<p:commandButton value="Find New Route" class="right"
+													process="@form" update="@form" style="font-size: 12px; float: left"
+													action="#{tripBean.findNewRoute(flight)}"
+													rendered="#{flight.late}">
+												</p:commandButton>
+												<h:outputText style="font-size: 12px; float: left"
+													value="(Calculate new route from this location)"
+													rendered="#{flight.late}" />
+											</p:column>
+
+										</p:dataTable>
+
+
+									</h:panelGrid>
+								</p:panel>
+							</p:panel>
+						</div>
+					</h:form>
+				</p:layoutUnit>
+			</p:layout>
+		</div>
+	</h:form>
+</h:body>
+</html>

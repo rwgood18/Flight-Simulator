@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<h:outputStylesheet
+		name='http://fonts.googleapis.com/css?family=Oxygen' />
+	<h:outputStylesheet library="/resources/css" name="style.css" />
+	<title>Home</title>
+</h:head>
+<h:body>
+	<ui:composition>
+		<div class="header">
+			<h2 class="font left userMenu">Flight Simulator 3000</h2>
+			<p:menubar class="menubar left">
+				<p:submenu label="#{authenticationBean.user.username}"
+					icon="ui-icon-contact"
+					rendered="#{authenticationBean.isLoggedIn()}" class="topButton">
+					<p:menuitem value="Home" icon="ui-icon-home" update="@form"
+						url="home.xhtml" />
+					<p:menuitem value="Edit Profile" icon="ui-icon-pencil"
+						url="/secured/profile.xhtml" />
+				</p:submenu>
+				<f:facet name="options">
+					<p:inputText id="search-o" size="16" class="searchInput"
+						rendered="#{authenticationBean.isLoggedIn()}"
+						placeholder="Search Origins" value="#{tripBean.origin.city}" />
+					<p:inputText id="search-d" size="16" class="searchInput"
+						rendered="#{authenticationBean.isLoggedIn()}"
+						placeholder="Search Destinations"
+						value="#{tripBean.destination.city}" />
+					<p:commandButton value="Search" action="#{tripBean.search()}"
+						rendered="#{authenticationBean.isLoggedIn()}" ajax="false"
+						icon="ui-icon-search" process="@form" update="@form"
+						class="search topButton" />
+
+					<p:commandButton value="Login" action="#{loginBean.login()}"
+						process="@form" update="@form"
+						rendered="#{!authenticationBean.isLoggedIn()}"
+						class="search topButton" />
+					<p:commandButton value="Logout" action="#{logoutBean.logout()}"
+						process="@form" update="@form"
+						rendered="#{authenticationBean.isLoggedIn()}"
+						class="search topButton" />
+					<p:commandButton value="Register" action="#{loginBean.register()}"
+						process="@form" update="@form"
+						rendered="#{!authenticationBean.isLoggedIn()}"
+						class="search topButton" />
+					<p:inputText size="10" class="searchInput" placeholder="Username"
+						value="#{loginBean.user.username}"
+						rendered="#{!authenticationBean.isLoggedIn()}" />
+					<p:password size="10" class="searchInput" placeholder="Password"
+						value="#{loginBean.user.password}"
+						rendered="#{!authenticationBean.isLoggedIn()}" />
+				</f:facet>
+
+			</p:menubar>
+		</div>
+	</ui:composition>
+</h:body>
+</html>
